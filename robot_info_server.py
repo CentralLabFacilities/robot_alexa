@@ -39,7 +39,7 @@ class _pepper(Resource):
         try:
             return pepper[key]
         except KeyError:
-            return {}, 404
+            return ""
 
     @staticmethod
     def put(key):
@@ -54,9 +54,22 @@ class _pepper(Resource):
             pepper[key] = request.get_json(force=True)
             return "init "+key+": "+pepper[key]
 
+class _clear(Resource):
+    @staticmethod
+    def get():
+        pepper = dict()
+        tobi = dict()
+        return "cleared"
+
+    @staticmethod
+    def put():
+        pepper = dict()
+        tobi = dict()
+        return "cleared"
 
 api.add_resource(_pepper, '/pepper/<string:key>')
 api.add_resource(_tobi, '/tobi/<string:key>')
+api.add_resource(_clear, '/clear')
 
 @app.route("/help")
 def _help():

@@ -49,6 +49,11 @@ def updateRobotInfo():
     print "init updater"
 
 
+    def checkForNavGoal():
+        headers = {'Content-type': 'application/json'}
+        r = requests.get(serverurl + robotname + "/setlocation", headers=headers)
+        print r.json()
+
 
     def positionCB(data):
         x =data.pose.pose.position.x
@@ -87,8 +92,9 @@ def updateRobotInfo():
         print r.json()
 
     position_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, positionCB)
-    #person_sub = rospy.Subscriber('/people_tracker/people', People, personsCB)
+    person_sub = rospy.Subscriber('/people_tracker/people', People, personsCB)
 
+    checkForNavGoal()
     while not rospy.is_shutdown():
             rate.sleep()
 
