@@ -1,0 +1,26 @@
+{
+  "intents": [
+    {
+      "intent": "GetNewPepperIntent",
+      "slots": [
+        {
+          "name": "cmd",
+          "type": "LIST_OF_CMD"
+        },
+        {
+          "name": "action",
+          "type": "LIST_OF_ACTIONS"
+        }
+      ]
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+GetNewPepperIntent wo {action} sich {cmd}
+GetNewPepperIntent wie viele {action} sieht {cmd}
+GetNewPepperIntent ist {cmd} {action}
+GetNewPepperIntent {action} {cmd} zu mir
