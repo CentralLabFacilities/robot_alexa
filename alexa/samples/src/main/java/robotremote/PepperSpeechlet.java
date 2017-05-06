@@ -34,6 +34,7 @@ import com.amazonaws.util.json.JSONArray;
 import com.amazonaws.util.json.JSONException;
 import com.amazonaws.util.json.JSONObject;
 import com.amazonaws.util.json.JSONTokener;
+import robotremote.HttpClientGet;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -56,6 +57,7 @@ import org.apache.commons.io.IOUtils;
 public class PepperSpeechlet implements Speechlet {
 
     private static final Logger log = LoggerFactory.getLogger(PepperSpeechlet.class);
+    HttpClientGet httpClientGet = new HttpClientGet();
 
     @Override
     public void onSessionStarted(final SessionStartedRequest request, final Session session) throws SpeechletException {
@@ -143,13 +145,18 @@ public class PepperSpeechlet implements Speechlet {
 
         if ("pepper".equals(speechTextCmd)) {
             if ("befindet".equals(speechTextAction)) {
-                speechText = speechTextCmd+"befindet sich im Wohnzimmer";
+                //speechText = speechTextCmd+"befindet sich im Wohnzimmer";
+                String result = httpClientGet.getContent("http://warp1337.com:5000/tobi/location");
+                speechText = result;
             }
             if ("personen".equals(speechTextAction)) {
-                speechText = speechTextCmd+"sieht vier personen";
+                //speechText = speechTextCmd+"sieht vier personen";
+                String result = httpClientGet.getContent("http://warp1337.com:5000/tobi/numberOfPersons");
+                speechText = result;
             }
             if ("beschäftigt".equals(speechTextAction)) {
-                speechText = "Ja, netflix und chill";
+                speechText = "Nein, er schaut Netflix";
+                // String result = httpClientGet.getContent("http://warp1337.com:5000/tobi/busy");
             }
             if ("hole".equals(speechTextAction)) {
                 speechText = "Ich versuche"+speechTextCmd+"zu holen";
@@ -158,13 +165,16 @@ public class PepperSpeechlet implements Speechlet {
 
         if ("tobi".equals(speechTextCmd)) {
             if ("befindet".equals(speechTextAction)) {
-                speechText = speechTextCmd+"befindet sich im Wohnzimmer";
+                String result = httpClientGet.getContent("http://warp1337.com:5000/tobi/location");
+                speechText = result;
             }
             if ("personen".equals(speechTextAction)) {
-                speechText = speechTextCmd+"sieht zehntausend personen und den weihnachtsmann";
+                String result = httpClientGet.getContent("http://warp1337.com:5000/tobi/numberOfPersons");
+                speechText = result;
             }
             if ("beschäftigt".equals(speechTextAction)) {
-                speechText = speechText = "Ja, netflix und chill";
+                speechText = "Nein, er schaut Netflix";
+                // String result = httpClientGet.getContent("http://warp1337.com:5000/tobi/busy");
             }
             if ("hole".equals(speechTextAction)) {
                 speechText = "Ich versuche"+speechTextCmd+"zu holen";
