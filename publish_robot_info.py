@@ -35,10 +35,10 @@ p7 = (14.0308842158, 16.5344211887)
 p8 = (18.1530704985, 12.1831861028)
 p9 = (15.7761750146, 14.8226271020)
 
-diningroom = [p9,p8,p6,p5]
+diningroom = [p9, p8, p6, p5]
 livingroom = [p1, p2, p4, p5]
-kitchen = [p4,p5,p8,p9]
-bedroom = [p2,p3,p5,p6]
+kitchen = [p4, p5, p8, p7]
+bedroom = [p2, p3, p5, p6]
 
 def updateRobotInfo():
     rospy.init_node('updateRobotInfos', anonymous=True)
@@ -58,13 +58,13 @@ def updateRobotInfo():
 
         # get location from Position  (e.g "kitchen")
 
-        if(pointInPoly([x,y],kitchen)):
+        if(pointInPoly((x,y),kitchen)):
             location="kitchen"
-        elif(pointInPoly([x,y],livingroom)):
+        elif(pointInPoly((x,y),livingroom)):
             location="living room"
-        elif(pointInPoly([x,y],bedroom)):
+        elif(pointInPoly((x,y),bedroom)):
             location="bedroom"
-        elif(pointInPoly([x,y],diningroom)):
+        elif(pointInPoly((x,y),diningroom)):
             location="dining room"
         else:
             location="outside_arena"
