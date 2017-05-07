@@ -130,9 +130,10 @@ public class PepperSpeechlet implements Speechlet {
     /**
      * Generate a response based on the current slots.
      * The mensa plan is provided as JSON on the web.
-     * @return SpeechletResponse
-     * @param day The desired day of the week
+     *
+     * @param day   The desired day of the week
      * @param menue The desired menue, e.g., vital, vegetarian, etc.
+     * @return SpeechletResponse
      */
     private SpeechletResponse getNewPepperResponse(String action, String cmd) {
 
@@ -157,7 +158,7 @@ public class PepperSpeechlet implements Speechlet {
                 // String result = httpClientGet.getContent("http://warp1337.com:5000/pepper/busy");
             }
             if ("hole".equals(speechTextAction)) {
-                speechText = "Ich versuche"+speechTextCmd+"zu holen";
+                speechText = "Ich versuche" + speechTextCmd + "zu holen, warte einen moment.";
             }
         }
 
@@ -175,12 +176,12 @@ public class PepperSpeechlet implements Speechlet {
                 // String result = httpClientGet.getContent("http://warp1337.com:5000/tobi/busy");
             }
             if ("hole".equals(speechTextAction)) {
-                speechText = "Ich versuche"+speechTextCmd+"zu holen";
+                speechText = "Ich versuche" + speechTextCmd + "zu holen, warte einen mooment";
             }
         }
 
         SimpleCard card = new SimpleCard();
-        card.setTitle("Pepper");
+        card.setTitle(cmd);
         card.setContent(speechText);
 
         PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
@@ -191,10 +192,11 @@ public class PepperSpeechlet implements Speechlet {
 
     /**
      * Generate a static help response
+     *
      * @return SpeechletResponse
      */
     private SpeechletResponse getHelpResponse() {
-        String speechText = "Du kannst fragen welche Menues es heute in der Mensa der Universitaet Bielefeld gibt. Frage zum Beispiel: Mensa Bielefeld Heute Tagesmenue";
+        String speechText = "Roboter sind okay. Also, wirklich.";
 
         PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
         speech.setText(speechText);
@@ -207,14 +209,14 @@ public class PepperSpeechlet implements Speechlet {
 
     /**
      * Generate a static welcome response
+     *
      * @return SpeechletResponse
      */
     private SpeechletResponse getNewWelcomeResponse() {
-        String speechText = "OK";
 
+        String speechText = "Roboter, ok, cool.";
         PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
         speech.setText(speechText);
-
         Reprompt reprompt = new Reprompt();
         reprompt.setOutputSpeech(speech);
 
