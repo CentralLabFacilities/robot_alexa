@@ -140,43 +140,47 @@ public class PepperSpeechlet implements Speechlet {
         // Actions: befindet, hole, personen, beschäftigt
         // CMD: befindet, hole, personen, beschäftigt
 
+        // DO NOT REMOVE TRAILING SLASH
+        String url = "http://warp1337.com:5000/";
         String speechText = "";
         String speechTextCmd = cmd;
         String speechTextAction = action;
 
         if ("pepper".equals(speechTextCmd)) {
             if ("befindet".equals(speechTextAction)) {
-                String result = httpClientGet.getContent("http://warp1337.com:5000/pepper/location");
+                String result = httpClientGet.getContent(url+"pepper/location");
                 speechText = result;
             }
             if ("personen".equals(speechTextAction)) {
-                String result = httpClientGet.getContent("http://warp1337.com:5000/pepper/numberOfPersons");
+                String result = httpClientGet.getContent(url+"pepper/numberOfPersons");
                 speechText = result;
             }
             if ("beschäftigt".equals(speechTextAction)) {
-                speechText = "Nein, er schaut Netflix";
+                speechText = "Das kann ich noch nicht wissen, aber "+cmd+" schaut oft Netflix. Ich glaube er hat Zeit.";
                 // String result = httpClientGet.getContent("http://warp1337.com:5000/pepper/busy");
             }
             if ("hole".equals(speechTextAction)) {
+                httpClientGet.sendPut("ein tobi nav goal", url+"pepper/setlocation");
                 speechText = "Ich versuche" + speechTextCmd + "zu holen, warte einen moment.";
             }
         }
 
         if ("tobi".equals(speechTextCmd)) {
             if ("befindet".equals(speechTextAction)) {
-                String result = httpClientGet.getContent("http://warp1337.com:5000/tobi/location");
+                String result = httpClientGet.getContent(url+"tobi/location");
                 speechText = result;
             }
             if ("personen".equals(speechTextAction)) {
-                String result = httpClientGet.getContent("http://warp1337.com:5000/tobi/numberOfPersons");
+                String result = httpClientGet.getContent(url+"tobi/numberOfPersons");
                 speechText = result;
             }
             if ("beschäftigt".equals(speechTextAction)) {
-                speechText = "Nein, er schaut Netflix";
+                speechText = "Das kann ich noch nicht wissen, aber "+cmd+" schaut oft Netflix. Ich glaube sie hat Zeit.";
                 // String result = httpClientGet.getContent("http://warp1337.com:5000/tobi/busy");
             }
             if ("hole".equals(speechTextAction)) {
-                speechText = "Ich versuche" + speechTextCmd + "zu holen, warte einen mooment";
+                httpClientGet.sendPut("ein tobi nav goal", url+"tobi/setlocation");
+                speechText = "Ich versuche" + speechTextCmd + "zu holen, warte einen moment";
             }
         }
 
