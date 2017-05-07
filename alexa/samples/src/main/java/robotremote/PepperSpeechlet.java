@@ -160,7 +160,7 @@ public class PepperSpeechlet implements Speechlet {
                 // String result = httpClientGet.getContent("http://warp1337.com:5000/pepper/busy");
             }
             if ("hole".equals(speechTextAction)) {
-                httpClientGet.sendPut("ein tobi nav goal", url+"pepper/setlocation");
+                httpClientGet.sendPut("['location:123']", url+"pepper/setlocation");
                 speechText = "Ich versuche " + speechTextCmd + " zu holen, warte einen moment.";
             }
         }
@@ -179,7 +179,7 @@ public class PepperSpeechlet implements Speechlet {
                 // String result = httpClientGet.getContent("http://warp1337.com:5000/tobi/busy");
             }
             if ("hole".equals(speechTextAction)) {
-                httpClientGet.sendPut("ein tobi nav goal", url+"tobi/setlocation");
+                httpClientGet.sendPut("['location:123']", url+"tobi/setlocation");
                 speechText = "Ich versuche " + speechTextCmd + " zu holen, warte einen moment";
             }
         }

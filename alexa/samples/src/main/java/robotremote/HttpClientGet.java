@@ -66,7 +66,6 @@ public class HttpClientGet {
             ex.printStackTrace();
             ex.printStackTrace();
         } finally {
-            httpClient.getConnectionManager().shutdown();
         }
         return responseCode;
     }
