@@ -21,7 +21,9 @@ import rsb
 robotname = "tobi"
 serverurl = "http://warp1337.com:5000/"
 current_location = ""
+current_number_of_people = 0
 last_people_update = time.time()
+
 
 # serverurl="http://localhost:5000/"
 
@@ -117,14 +119,17 @@ def updateRobotInfo():
 
     def personsCB(data):
         global last_people_update
+        global current_number_of_people
         last_people_update = time.time()
         numberOfPeople = str(len(data.people))
         # get number of persons from Persons (e.g. "2")
         # send curl -i -H 'Content-Type: application/json' -X PUT -d '"2"' http://localhost:5000/pepper/persons
-        headers = {'Content-type': 'application/json'}
-        payload = numberOfPeople
-        r = requests.put(serverurl + robotname + "/numDetectedPeople", headers=headers, data=json.dumps(payload))
-        print r.json()
+        if numberOfPeople != current_number_of_people:
+            current_number_of_people = numberOfPeople
+            headers = {'Content-type': 'application/json'}
+            payload = numberOfPeople
+            r = requests.put(serverurl + robotname + "/numDetectedPeople", headers=headers, data=json.dumps(payload))
+            print r.json()
 
 
     position_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, positionCB)
@@ -136,7 +141,7 @@ def updateRobotInfo():
         rate.sleep()
         checkForNavGoal()
         #print "check"
-        if time.time()-last_people_update>5:
+        if time.time()-last_people_update>2:
             resetPeople()
 
 
