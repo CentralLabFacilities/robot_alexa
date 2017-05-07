@@ -81,8 +81,9 @@ def updateRobotInfo():
         # y = pos[1]
         # theta = pos[2]
         if r.json() == 'called':
+            print "navgoal detected"
             headers = {'Content-type': 'application/json'}
-            payload = ''
+            payload = 'none'
             r = requests.put(serverurl + robotname + "/setlocation", headers=headers, data=json.dumps(payload))
             # robot_call = "komm"
             # pub_called.publish(robot_call)
