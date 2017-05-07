@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 import rospy
 import json
 import requests
@@ -18,7 +19,7 @@ import rsb
 
 robotname = "tobi"
 serverurl = "http://warp1337.com:5000/"
-
+current_location = ""
 
 # serverurl="http://localhost:5000/"
 
@@ -70,6 +71,7 @@ def updateRobotInfo():
             rsb_informer.publishData("komm")
 
     def positionCB(data):
+        global current_location
         x = data.pose.pose.position.x
         y = data.pose.pose.position.y
 
@@ -87,13 +89,14 @@ def updateRobotInfo():
             location = "dining room"
         else:
             location = "outside_arena"
-
-        print location
-        # send curl -i -H 'Content-Type: application/json' -X PUT -d '"kitchen"' http://localhost:5000/pepper/location
-        headers = {'Content-type': 'application/json'}
-        payload = location
-        r = requests.put(serverurl + robotname + "/location", headers=headers, data=json.dumps(payload))
-        print r.json()
+        if current_location != location:
+            print location
+            current_location = location
+            # send curl -i -H 'Content-Type: application/json' -X PUT -d '"kitchen"' http://localhost:5000/pepper/location
+            headers = {'Content-type': 'application/json'}
+            payload = location
+            r = requests.put(serverurl + robotname + "/location", headers=headers, data=json.dumps(payload))
+            print r.json()
 
     def personsCB(data):
         numberOfPeople = str(len(data.people))
