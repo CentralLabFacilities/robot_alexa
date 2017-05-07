@@ -25,20 +25,20 @@ def pointInPoly(point,polygon):
 #maytheforcebewithyou___
 
 
-p1 = (21.3727885433, 15.6410491484)
-p2 = (16.2695416468, 13.1730274330)
-p3 = (16.0496030221, 12.9604788694)
-p4 = (16.1739002240, 13.4186044880)
-p5 = (17.4055268696, 12.9224151701)
-p6 = (16.2853452109, 12.2126815204)
-p7 = (14.0308842158, 16.5344211887)
-p8 = (18.1530704985, 12.1831861028)
-p9 = (15.7761750146, 14.8226271020)
+p1 = (16.3588726504, 6.30925045713)
+p2 = (13.3668566439, 9.40414529184)
+p3 = (9.9387360579, 13.0877831966)
+p4 = (20.1978948252, 9.74892582772)
+p5 = (17.198790766, 12.8383869617)
+p6 = (13.6412316995, 16.646593463)
+p7 = (24.0390379612, 13.6097755096)
+p8 = (21.1956458327, 16.5876670178)
+p9 = (17.4775239932, 20.1390011251)
 
-diningroom = [p9, p8, p5, p6]
-livingroom = [p1, p2, p5, p4]
-kitchen = [p4, p5, p8, p7]
-bedroom = [p2, p3, p6, p5]
+diningroom = [p9, p8, p5, p6, p9]
+livingroom = [p1, p2, p5, p4, p1]
+kitchen = [p4, p5, p8, p7, p4]
+bedroom = [p2, p3, p6, p5, p2]
 
 def updateRobotInfo():
     rospy.init_node('updateRobotInfos', anonymous=True)
@@ -74,7 +74,7 @@ def updateRobotInfo():
         else:
             location="outside_arena"
 
-            
+        print location
         # send curl -i -H 'Content-Type: application/json' -X PUT -d '"kitchen"' http://localhost:5000/pepper/location
         headers = {'Content-type': 'application/json'}
         payload = location
