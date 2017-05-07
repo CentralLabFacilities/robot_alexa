@@ -54,7 +54,6 @@ def updateRobotInfo():
     print "init updater"
 
     def checkForNavGoal():
-        global robot_called
         headers = {'Content-type': 'application/json'}
         r = requests.get(serverurl + robotname + "/setlocation", headers=headers)
         # pos = r.json().split(',')
