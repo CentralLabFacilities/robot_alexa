@@ -88,7 +88,7 @@ def updateRobotInfo():
             # robot_call = "komm"
             # pub_called.publish(robot_call)
             # Create an informer for strings on scope "/example/informer".
-            rsb_informer.publishData("komm")
+            rsb_informer.publishData("")
 
     def positionCB(data):
         global current_location
