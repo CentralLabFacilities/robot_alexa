@@ -46,11 +46,11 @@ livingroom = [p1, p2, p5, p4, p1]
 kitchen = [p4, p5, p8, p7, p4]
 bedroom = [p2, p3, p6, p5, p2]
 
+
 def updateRobotInfo():
     rospy.init_node('updateRobotInfos', anonymous=True)
-    #pub_called = rospy.Publisher('alexatobi', String, queue_size=10)
+    rsb_informer = rsb.createInformer("/alexatobi", dataType=str)
     rate = rospy.Rate(1)
-
     print "init updater"
 
     def checkForNavGoal():
@@ -64,13 +64,10 @@ def updateRobotInfo():
             headers = {'Content-type': 'application/json'}
             payload = ''
             r = requests.put(serverurl + robotname + "/setlocation", headers=headers, data=json.dumps(payload))
-            #robot_call = "komm"
-            #pub_called.publish(robot_call)
-            logging.basicConfig()
+            # robot_call = "komm"
+            # pub_called.publish(robot_call)
             # Create an informer for strings on scope "/example/informer".
-            with rsb.createInformer("/alexatobi", dataType=str) as informer:
-                # Send and event using a method that directly accepts data.
-                informer.publishData("komm")
+            rsb_informer.publishData("komm")
 
     def positionCB(data):
         x = data.pose.pose.position.x
