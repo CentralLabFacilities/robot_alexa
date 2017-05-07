@@ -42,9 +42,16 @@ p7 = (24.0390379612, 13.6097755096)
 p8 = (21.1956458327, 16.5876670178)
 p9 = (17.4775239932, 20.1390011251)
 
+p10 = (21.7561656767, 11.3351165489)
+p11 = (18.6364057548, 14.3130282238)
+
+oldkitchen = [p1, p2, p5, p4, p1]
+oldlivingroom = [p4, p5, p8, p7, p4]
+
+kitchen = [p1, p2, p11, p10, p1]
+livingroom = [p10, p11, p8, p7, p10]
+
 diningroom = [p9, p8, p5, p6, p9]
-livingroom = [p1, p2, p5, p4, p1]
-kitchen = [p4, p5, p8, p7, p4]
 bedroom = [p2, p3, p6, p5, p2]
 
 
@@ -80,13 +87,13 @@ def updateRobotInfo():
         # get location from Position  (e.g "kitchen")
 
         if (pointInPoly((x, y), kitchen)):
-            location = "kitchen"
+            location = "er ist in der küche"
         elif (pointInPoly((x, y), livingroom)):
-            location = "living room"
+            location = "er ist im wohnzimmer"
         elif (pointInPoly((x, y), bedroom)):
-            location = "bedroom"
+            location = "er ist im schlafzimmer"
         elif (pointInPoly((x, y), diningroom)):
-            location = "dining room"
+            location = "er ist im esszimmer"
         else:
             location = "outside_arena"
         if current_location != location:
@@ -109,6 +116,10 @@ def updateRobotInfo():
 
     position_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, positionCB)
     person_sub = rospy.Subscriber('/people_tracker/people', People, personsCB)
+
+    headers = {'Content-type': 'application/json'}
+    payload = "0"
+    r = requests.put(serverurl + robotname + "/numDetectedPeople", headers=headers, data=json.dumps(payload))
 
     while not rospy.is_shutdown():
         rate.sleep()
