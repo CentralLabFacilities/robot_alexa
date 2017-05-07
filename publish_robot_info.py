@@ -14,6 +14,9 @@ from std_msgs.msg import String
 from people_msgs.msg import People
 import rsb
 
+import sys
+
+
 
 # -busy state (bool)
 # -CALL (bool)
@@ -64,14 +67,22 @@ def resetPeople():
     last_people_update = time.time()
     headers = {'Content-type': 'application/json'}
     payload = "0"
-    r = requests.put(serverurl + robotname + "/numDetectedPeople", headers=headers, data=json.dumps(payload))
+    r = requests.put(serverurl + robotname + "/numberOfPersons", headers=headers, data=json.dumps(payload))
     print "reset people"
 
 def updateRobotInfo():
+    global robotname
+    #print 'Number of arguments:', len(sys.argv), 'arguments.'
+    #print 'Argument List:', str(sys.argv)
+    if len(sys.argv) == 2:
+        robotname = str(sys.argv[1])
+        print "set robotname to "+robotname
+
+    print "init updater"
     rospy.init_node('updateRobotInfos', anonymous=True)
+    print "ros connection established"
     rsb_informer = rsb.createInformer("/tobi", dataType=str)
     rate = rospy.Rate(1)
-    print "init updater"
 
     def checkForNavGoal():
         headers = {'Content-type': 'application/json'}
@@ -100,7 +111,7 @@ def updateRobotInfo():
         # get location from Position  (e.g "kitchen")
 
         if (pointInPoly((x, y), kitchen)):
-            location = "er ist in der küche"
+            location = "er ist in der kche"
         elif (pointInPoly((x, y), livingroom)):
             location = "er ist im wohnzimmer"
         elif (pointInPoly((x, y), bedroom)):
@@ -129,7 +140,7 @@ def updateRobotInfo():
             current_number_of_people = numberOfPeople
             headers = {'Content-type': 'application/json'}
             payload = numberOfPeople
-            r = requests.put(serverurl + robotname + "/numDetectedPeople", headers=headers, data=json.dumps(payload))
+            r = requests.put(serverurl + robotname + "/numberOfPersons", headers=headers, data=json.dumps(payload))
             print r.json()
 
 
