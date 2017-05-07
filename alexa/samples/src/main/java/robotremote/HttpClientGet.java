@@ -36,12 +36,11 @@ public class HttpClientGet {
         int responseCode = -1;
         try {
             HttpPut request = new HttpPut(url);
-            StringEntity params = new StringEntity(data,"UTF-8");
+            // "{\"phonetype\":\"N95\",\"cat\":\"WP\"}"
+            StringEntity params = new StringEntity("{\"location\":\""+data+"\"}","UTF-8");
             params.setContentType("application/json");
             request.addHeader("content-type", "application/json");
             request.addHeader("Accept", "*/*");
-            request.addHeader("Accept-Encoding", "gzip,deflate,sdch");
-            request.addHeader("Accept-Language", "en-US,en;q=0.8");
             request.setEntity(params);
             HttpResponse response = httpClient.execute(request);
             responseCode = response.getStatusLine().getStatusCode();
