@@ -4,6 +4,7 @@
 import rospy
 import json
 import requests
+import time
 import logging
 import numpy as np
 from matplotlib import path
@@ -20,6 +21,7 @@ import rsb
 robotname = "tobi"
 serverurl = "http://warp1337.com:5000/"
 current_location = ""
+last_people_update = time.time()
 
 # serverurl="http://localhost:5000/"
 
@@ -54,6 +56,14 @@ livingroom = [p10, p11, p8, p7, p10]
 diningroom = [p9, p8, p5, p6, p9]
 bedroom = [p2, p3, p6, p5, p2]
 
+
+def resetPeople():
+    global last_people_update
+    last_people_update = time.time()
+    headers = {'Content-type': 'application/json'}
+    payload = "0"
+    r = requests.put(serverurl + robotname + "/numDetectedPeople", headers=headers, data=json.dumps(payload))
+    print "reset people"
 
 def updateRobotInfo():
     rospy.init_node('updateRobotInfos', anonymous=True)
@@ -106,6 +116,8 @@ def updateRobotInfo():
             print r.json()
 
     def personsCB(data):
+        global last_people_update
+        last_people_update = time.time()
         numberOfPeople = str(len(data.people))
         # get number of persons from Persons (e.g. "2")
         # send curl -i -H 'Content-Type: application/json' -X PUT -d '"2"' http://localhost:5000/pepper/persons
@@ -114,16 +126,19 @@ def updateRobotInfo():
         r = requests.put(serverurl + robotname + "/numDetectedPeople", headers=headers, data=json.dumps(payload))
         print r.json()
 
+
     position_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, positionCB)
     person_sub = rospy.Subscriber('/people_tracker/people', People, personsCB)
 
-    headers = {'Content-type': 'application/json'}
-    payload = "0"
-    r = requests.put(serverurl + robotname + "/numDetectedPeople", headers=headers, data=json.dumps(payload))
+    resetPeople()
 
     while not rospy.is_shutdown():
         rate.sleep()
         checkForNavGoal()
+        #print "check"
+        if time.time()-last_people_update>5:
+            resetPeople()
+
 
 if __name__ == '__main__':
     try:
