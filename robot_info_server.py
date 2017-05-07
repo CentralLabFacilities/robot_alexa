@@ -21,8 +21,12 @@ class _tobi(Resource):
     @staticmethod
     def put(key):
         global tobi
-        ret = request.get_json(force=True)
+        result = request.get_json(force=True)
 
+        if type(result) is dict:
+            ret = result["data"]
+        else:
+            ret = result
         if not type(key) is unicode or not type(ret) is unicode:
 
             return "key and value must be unicode-strings! key: "+str(type(key))+", val: "+str(type(ret))
@@ -47,7 +51,12 @@ class _pepper(Resource):
     @staticmethod
     def put(key):
         global pepper
-        ret = request.get_json(force=True)
+        result = request.get_json(force=True)
+
+        if type(result) is dict:
+            ret = result["data"]
+        else:
+            ret = result
         if not type(key) is unicode or not type(ret) is unicode:
 
             return "key and value must be unicode-strings! key: "+str(type(key))+", val: "+str(type(ret))
