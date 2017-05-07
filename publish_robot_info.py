@@ -108,7 +108,7 @@ def updateRobotInfo():
         elif (pointInPoly((x, y), diningroom)):
             location = "er ist im esszimmer"
         else:
-            location = "outside_arena"
+            location = "er ist ausserhalb der arena"
         if current_location != location:
             print location
             current_location = location
