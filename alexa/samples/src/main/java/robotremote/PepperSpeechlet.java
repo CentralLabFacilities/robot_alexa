@@ -145,18 +145,16 @@ public class PepperSpeechlet implements Speechlet {
 
         if ("pepper".equals(speechTextCmd)) {
             if ("befindet".equals(speechTextAction)) {
-                //speechText = speechTextCmd+"befindet sich im Wohnzimmer";
-                String result = httpClientGet.getContent("http://warp1337.com:5000/tobi/location");
+                String result = httpClientGet.getContent("http://warp1337.com:5000/pepper/location");
                 speechText = result;
             }
             if ("personen".equals(speechTextAction)) {
-                //speechText = speechTextCmd+"sieht vier personen";
-                String result = httpClientGet.getContent("http://warp1337.com:5000/tobi/numberOfPersons");
+                String result = httpClientGet.getContent("http://warp1337.com:5000/pepper/numberOfPersons");
                 speechText = result;
             }
             if ("beschäftigt".equals(speechTextAction)) {
                 speechText = "Nein, er schaut Netflix";
-                // String result = httpClientGet.getContent("http://warp1337.com:5000/tobi/busy");
+                // String result = httpClientGet.getContent("http://warp1337.com:5000/pepper/busy");
             }
             if ("hole".equals(speechTextAction)) {
                 speechText = "Ich versuche"+speechTextCmd+"zu holen";
