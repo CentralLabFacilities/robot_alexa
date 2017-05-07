@@ -35,10 +35,10 @@ p7 = (14.0308842158, 16.5344211887)
 p8 = (18.1530704985, 12.1831861028)
 p9 = (15.7761750146, 14.8226271020)
 
-diningroom = [p9, p8, p6, p5]
-livingroom = [p1, p2, p4, p5]
+diningroom = [p9, p8, p5, p6]
+livingroom = [p1, p2, p5, p4]
 kitchen = [p4, p5, p8, p7]
-bedroom = [p2, p3, p5, p6]
+bedroom = [p2, p3, p6, p5]
 
 def updateRobotInfo():
     rospy.init_node('updateRobotInfos', anonymous=True)
