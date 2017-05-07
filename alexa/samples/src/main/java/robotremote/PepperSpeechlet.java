@@ -179,7 +179,7 @@ public class PepperSpeechlet implements Speechlet {
                 // String result = httpClientGet.getContent("http://warp1337.com:5000/tobi/busy");
             }
             if ("hole".equals(speechTextAction)) {
-                httpClientGet.sendPut("navgoal", url+"tobi/setlocation");
+                httpClientGet.sendPut("17,10,-1,6", url+"tobi/setlocation");
                 speechText = "Ich versuche " + speechTextCmd + " zu holen, warte einen moment";
             }
         }
