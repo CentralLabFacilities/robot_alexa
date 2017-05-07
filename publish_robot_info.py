@@ -53,7 +53,12 @@ def updateRobotInfo():
     def checkForNavGoal():
         headers = {'Content-type': 'application/json'}
         r = requests.get(serverurl + robotname + "/setlocation", headers=headers)
-        print r.json()
+        pos = r.json().split(',')
+        x = pos[0]
+        y = pos[1]
+        theta = pos[2]
+
+        print "go to "+str(x)+","+str(y)+","+str(theta)
 
 
     def positionCB(data):
