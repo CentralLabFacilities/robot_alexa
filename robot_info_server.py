@@ -36,7 +36,7 @@ class _tobi(Resource):
                     tobi[key] = ret
                 return "update " + key + ": " + tobi[key]
             except KeyError:
-                tobi[key] = request.get_json(force=True)
+                tobi[key] = ret
                 return "init " + key + ": " + tobi[key]
 
 
@@ -66,7 +66,7 @@ class _pepper(Resource):
                     pepper[key] = ret
                 return "update " + key + ": " + pepper[key]
             except KeyError:
-                pepper[key] = request.get_json(force=True)
+                pepper[key] = ret
                 return "init " + key + ": " + pepper[key]
 
 
