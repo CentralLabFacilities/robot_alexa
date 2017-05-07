@@ -161,7 +161,7 @@ public class PepperSpeechlet implements Speechlet {
             }
             if ("hole".equals(speechTextAction)) {
                 httpClientGet.sendPut("ein tobi nav goal", url+"pepper/setlocation");
-                speechText = "Ich versuche" + speechTextCmd + "zu holen, warte einen moment.";
+                speechText = "Ich versuche " + speechTextCmd + " zu holen, warte einen moment.";
             }
         }
 
@@ -180,7 +180,7 @@ public class PepperSpeechlet implements Speechlet {
             }
             if ("hole".equals(speechTextAction)) {
                 httpClientGet.sendPut("ein tobi nav goal", url+"tobi/setlocation");
-                speechText = "Ich versuche" + speechTextCmd + "zu holen, warte einen moment";
+                speechText = "Ich versuche " + speechTextCmd + " zu holen, warte einen moment";
             }
         }
 
