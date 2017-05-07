@@ -86,12 +86,14 @@ public class HttpClientGet {
             BufferedReader br = new BufferedReader(
                     new InputStreamReader((response.getEntity().getContent())));
 
-            String output;
+            String output = "";
+            String result = "";
             System.out.println("Output from Server .... \n");
             while ((output = br.readLine()) != null) {
                 System.out.println(output);
+                result = output;
             }
-            return output;
+            return result;
 
 
         } catch (ClientProtocolException e) {
