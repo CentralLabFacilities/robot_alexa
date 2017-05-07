@@ -37,7 +37,7 @@ public class HttpClientGet {
         try {
             HttpPut request = new HttpPut(url);
             // "{\"phonetype\":\"N95\",\"cat\":\"WP\"}"
-            StringEntity params = new StringEntity("{\"location\":\""+data+"\"}","UTF-8");
+            StringEntity params = new StringEntity("{\"data\":\""+data+"\"}","UTF-8");
             params.setContentType("application/json");
             request.addHeader("content-type", "application/json");
             request.addHeader("Accept", "*/*");
@@ -50,9 +50,9 @@ public class HttpClientGet {
                         new InputStreamReader((response.getEntity().getContent())));
 
                 String output;
-                // System.out.println("Output from Server ...." + response.getStatusLine().getStatusCode() + "\n");
+                System.out.println("Output from Server ...." + response.getStatusLine().getStatusCode() + "\n");
                 while ((output = br.readLine()) != null) {
-                    // System.out.println(output);
+                    System.out.println(output);
                 }
             }
             else{
