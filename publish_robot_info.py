@@ -3,12 +3,15 @@
 import rospy
 import json
 import requests
+import logging
 import numpy as np
 from matplotlib import path
 
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from std_msgs.msg import String
 from people_msgs.msg import People
+import rsb
+
 
 # -busy state (bool)
 # -CALL (bool)
@@ -45,7 +48,7 @@ bedroom = [p2, p3, p6, p5, p2]
 
 def updateRobotInfo():
     rospy.init_node('updateRobotInfos', anonymous=True)
-    pub_called = rospy.Publisher('alexatobi', String, queue_size=10)
+    #pub_called = rospy.Publisher('alexatobi', String, queue_size=10)
     rate = rospy.Rate(1)
 
     print "init updater"
@@ -62,8 +65,13 @@ def updateRobotInfo():
             headers = {'Content-type': 'application/json'}
             payload = ''
             r = requests.put(serverurl + robotname + "/setlocation", headers=headers, data=json.dumps(payload))
-            robot_call = "komm"
-            pub_called.publish(robot_call)
+            #robot_call = "komm"
+            #pub_called.publish(robot_call)
+            logging.basicConfig()
+            # Create an informer for strings on scope "/example/informer".
+            with rsb.createInformer("/alexatobi", dataType=str) as informer:
+                # Send and event using a method that directly accepts data.
+                informer.publishData("komm")
 
     def positionCB(data):
         x = data.pose.pose.position.x
