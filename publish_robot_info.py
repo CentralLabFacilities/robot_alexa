@@ -49,7 +49,7 @@ bedroom = [p2, p3, p6, p5, p2]
 
 def updateRobotInfo():
     rospy.init_node('updateRobotInfos', anonymous=True)
-    rsb_informer = rsb.createInformer("/alexatobi", dataType=str)
+    rsb_informer = rsb.createInformer("/tobi", dataType=str)
     rate = rospy.Rate(1)
     print "init updater"
 
