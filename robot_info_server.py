@@ -6,9 +6,8 @@ from flask_restful import Resource, Api
 app = Flask(__name__)
 api = Api(app)
 
-
-pepper=dict()
-tobi=dict()
+pepper = dict()
+tobi = dict()
 
 
 class _tobi(Resource):
@@ -17,20 +16,24 @@ class _tobi(Resource):
         try:
             return tobi[key]
         except KeyError:
-            return {}, 404
+            return ""
 
     @staticmethod
     def put(key):
         global tobi
         ret = request.get_json(force=True)
 
-        try:
-            if tobi[key]:
-                tobi[key] = ret
-            return "update "+key+": "+tobi[key]
-        except KeyError:
-            tobi[key] = request.get_json(force=True)
-            return "init "+key+": "+tobi[key]
+        if not type(key) is unicode or not type(ret) is unicode:
+
+            return "key and value must be unicode-strings! key: "+str(type(key))+", val: "+str(type(ret))
+        else:
+            try:
+                if tobi[key]:
+                    tobi[key] = ret
+                return "update " + key + ": " + tobi[key]
+            except KeyError:
+                tobi[key] = request.get_json(force=True)
+                return "init " + key + ": " + tobi[key]
 
 
 class _pepper(Resource):
@@ -45,31 +48,37 @@ class _pepper(Resource):
     def put(key):
         global pepper
         ret = request.get_json(force=True)
+        if not type(key) is unicode or not type(ret) is unicode:
 
-        try:
-            if pepper[key]:
-                pepper[key] = ret
-            return "update "+key+": "+pepper[key]
-        except KeyError:
-            pepper[key] = request.get_json(force=True)
-            return "init "+key+": "+pepper[key]
+            return "key and value must be unicode-strings! key: "+str(type(key))+", val: "+str(type(ret))
+        else:
+            try:
+                if pepper[key]:
+                    pepper[key] = ret
+                return "update " + key + ": " + pepper[key]
+            except KeyError:
+                pepper[key] = request.get_json(force=True)
+                return "init " + key + ": " + pepper[key]
+
 
 class _clear(Resource):
     @staticmethod
     def get():
-        pepper = dict()
-        tobi = dict()
+        pepper.clear()
+        tobi.clear()
         return "cleared"
 
     @staticmethod
     def put():
-        pepper = dict()
-        tobi = dict()
+        pepper.clear()
+        tobi.clear()
         return "cleared"
+
 
 api.add_resource(_pepper, '/pepper/<string:key>')
 api.add_resource(_tobi, '/tobi/<string:key>')
 api.add_resource(_clear, '/clear')
+
 
 @app.route("/help")
 def _help():

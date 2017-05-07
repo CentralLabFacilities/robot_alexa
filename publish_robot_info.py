@@ -15,6 +15,7 @@ from people_msgs.msg import People
 
 robotname="tobi"
 serverurl="http://warp1337.com:5000/"
+#serverurl="http://localhost:5000/"
 
 def pointInPoly(point,polygon):
 
