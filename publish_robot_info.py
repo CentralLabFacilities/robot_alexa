@@ -6,24 +6,26 @@ import requests
 import numpy as np
 from matplotlib import path
 
-
-
 from geometry_msgs.msg import PoseWithCovarianceStamped
+from std_msgs.msg import String
 from people_msgs.msg import People
-#-busy state (bool)
-#-CALL (bool)
 
-robotname="tobi"
-serverurl="http://warp1337.com:5000/"
-#serverurl="http://localhost:5000/"
+# -busy state (bool)
+# -CALL (bool)
 
-def pointInPoly(point,polygon):
+robotname = "tobi"
+serverurl = "http://warp1337.com:5000/"
 
+
+# serverurl="http://localhost:5000/"
+
+def pointInPoly(point, polygon):
     poly = path.Path(polygon)
     ret = poly.contains_point(point)
     return ret
 
-#maytheforcebewithyou___
+
+# maytheforcebewithyou___
 
 
 p1 = (16.3588726504, 6.30925045713)
@@ -43,50 +45,51 @@ bedroom = [p2, p3, p6, p5, p2]
 
 def updateRobotInfo():
     rospy.init_node('updateRobotInfos', anonymous=True)
-    #pub = rospy.Publisher('/pepper_robot/pose/joint_angles', JointAnglesWithSpeed, queue_size=10)
-    rate = rospy.Rate(10)
-    #is_driving = time.time()
+    pub_called = rospy.Publisher('alexatobi', String, queue_size=10)
+    rate = rospy.Rate(1)
 
     print "init updater"
 
-
     def checkForNavGoal():
+        global robot_called
         headers = {'Content-type': 'application/json'}
         r = requests.get(serverurl + robotname + "/setlocation", headers=headers)
-        pos = r.json().split(',')
-        x = pos[0]
-        y = pos[1]
-        theta = pos[2]
-
-        print "go to "+str(x)+","+str(y)+","+str(theta)
-
+        # pos = r.json().split(',')
+        # x = pos[0]
+        # y = pos[1]
+        # theta = pos[2]
+        if r.json() == 'called':
+            headers = {'Content-type': 'application/json'}
+            payload = ''
+            r = requests.put(serverurl + robotname + "/setlocation", headers=headers, data=json.dumps(payload))
+            robot_call = "komm"
+            pub_called.publish(robot_call)
 
     def positionCB(data):
-        x =data.pose.pose.position.x
-        y =data.pose.pose.position.y
+        x = data.pose.pose.position.x
+        y = data.pose.pose.position.y
 
-        print "callback: "+str(x)+", "+str(y)
+        print "callback: " + str(x) + ", " + str(y)
 
         # get location from Position  (e.g "kitchen")
 
-        if(pointInPoly((x,y),kitchen)):
-            location="kitchen"
-        elif(pointInPoly((x,y),livingroom)):
-            location="living room"
-        elif(pointInPoly((x,y),bedroom)):
-            location="bedroom"
-        elif(pointInPoly((x,y),diningroom)):
-            location="dining room"
+        if (pointInPoly((x, y), kitchen)):
+            location = "kitchen"
+        elif (pointInPoly((x, y), livingroom)):
+            location = "living room"
+        elif (pointInPoly((x, y), bedroom)):
+            location = "bedroom"
+        elif (pointInPoly((x, y), diningroom)):
+            location = "dining room"
         else:
-            location="outside_arena"
+            location = "outside_arena"
 
         print location
         # send curl -i -H 'Content-Type: application/json' -X PUT -d '"kitchen"' http://localhost:5000/pepper/location
         headers = {'Content-type': 'application/json'}
         payload = location
-        r = requests.put(serverurl+robotname+"/location", headers=headers, data=json.dumps(payload))
+        r = requests.put(serverurl + robotname + "/location", headers=headers, data=json.dumps(payload))
         print r.json()
-
 
     def personsCB(data):
         numberOfPeople = str(len(data.people))
@@ -100,10 +103,9 @@ def updateRobotInfo():
     position_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, positionCB)
     person_sub = rospy.Subscriber('/people_tracker/people', People, personsCB)
 
-    checkForNavGoal()
     while not rospy.is_shutdown():
-            rate.sleep()
-
+        rate.sleep()
+        checkForNavGoal()
 
 if __name__ == '__main__':
     try:
