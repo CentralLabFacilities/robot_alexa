@@ -8,36 +8,25 @@ import time
 import logging
 import numpy as np
 from matplotlib import path
-
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from std_msgs.msg import String
 from people_msgs.msg import People
 import rsb
-
 import sys
-
-
 
 # -busy state (bool)
 # -CALL (bool)
 
-robotname = "tobi"
+robotname = "pepper"
 serverurl = "http://warp1337.com:5000/"
 current_location = ""
 current_number_of_people = 0
 last_people_update = time.time()
 
-
-# serverurl="http://localhost:5000/"
-
 def pointInPoly(point, polygon):
     poly = path.Path(polygon)
     ret = poly.contains_point(point)
     return ret
-
-
-# maytheforcebewithyou___
-
 
 p1 = (16.3588726504, 6.30925045713)
 p2 = (13.3668566439, 9.40414529184)
@@ -70,13 +59,14 @@ def resetPeople():
     r = requests.put(serverurl + robotname + "/numberOfPersons", headers=headers, data=json.dumps(payload))
     print "reset people"
 
+
 def updateRobotInfo():
     global robotname
-    #print 'Number of arguments:', len(sys.argv), 'arguments.'
-    #print 'Argument List:', str(sys.argv)
+    # print 'Number of arguments:', len(sys.argv), 'arguments.'
+    # print 'Argument List:', str(sys.argv)
     if len(sys.argv) == 2:
         robotname = str(sys.argv[1])
-        print "set robotname to "+robotname
+        print "set robotname to " + robotname
 
     print "init updater"
     rospy.init_node('updateRobotInfos', anonymous=True)
@@ -123,7 +113,6 @@ def updateRobotInfo():
         if current_location != location:
             print location
             current_location = location
-            # send curl -i -H 'Content-Type: application/json' -X PUT -d '"kitchen"' http://localhost:5000/pepper/location
             headers = {'Content-type': 'application/json'}
             payload = location
             r = requests.put(serverurl + robotname + "/location", headers=headers, data=json.dumps(payload))
@@ -143,7 +132,6 @@ def updateRobotInfo():
             r = requests.put(serverurl + robotname + "/numberOfPersons", headers=headers, data=json.dumps(payload))
             print r.json()
 
-
     position_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, positionCB)
     person_sub = rospy.Subscriber('/people_tracker/people', People, personsCB)
 
@@ -152,8 +140,7 @@ def updateRobotInfo():
     while not rospy.is_shutdown():
         rate.sleep()
         checkForNavGoal()
-        #print "check"
-        if time.time()-last_people_update>2:
+        if time.time() - last_people_update > 1:
             resetPeople()
 
 
