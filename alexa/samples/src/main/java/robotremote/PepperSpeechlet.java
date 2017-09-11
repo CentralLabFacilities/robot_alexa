@@ -165,25 +165,6 @@ public class PepperSpeechlet implements Speechlet {
             }
         }
 
-        if ("tobi".equals(speechTextCmd)) {
-            if ("befindet".equals(speechTextAction)) {
-                String result = httpClientGet.getContent(url+"tobi/location");
-                speechText = result;
-            }
-            if ("personen".equals(speechTextAction)) {
-                String result = httpClientGet.getContent(url+"tobi/numberOfPersons");
-                speechText = result;
-            }
-            if ("beschäftigt".equals(speechTextAction)) {
-                speechText = "Das kann ich noch nicht wissen, aber "+cmd+" schaut oft Netflix. Ich glaube sie hat Zeit.";
-                // String result = httpClientGet.getContent("http://warp1337.com:5000/tobi/busy");
-            }
-            if ("hole".equals(speechTextAction)) {
-                httpClientGet.sendPut("called", url+"tobi/setlocation");
-                speechText = "Ich versuche " + speechTextCmd + " zu holen, warte einen moment";
-            }
-        }
-
         SimpleCard card = new SimpleCard();
         card.setTitle(cmd);
         card.setContent(speechText);
